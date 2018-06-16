@@ -2,6 +2,10 @@
 #
 .DS_Store
 
+
+#VsCode configuration
+./vscode
+
 # Xcode
 #
 build/
