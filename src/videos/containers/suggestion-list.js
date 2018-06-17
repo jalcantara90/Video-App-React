@@ -24,10 +24,22 @@ class SuggestionList extends Component {
 
   renderItem = ({item}) => {
     return (
-      <Suggestion {...item}/>
+      <Suggestion 
+        {...item}
+        onPress={() => {this.viewMovie(item)}}
+      />
     )
   }
   keyExtractor = (item) => item.id.toString();
+
+  viewMovie = (item) => {
+    this.props.dispatch({
+      type: 'SET_SELECTED_MOVIE',
+      payload: {
+        movie: item
+      }
+    })
+  }
   
   render() {
     return (

@@ -6,23 +6,15 @@
 
 import React, { Component } from 'react';
 import {
-  Text,
-  View
+  Text
 } from 'react-native';
 
-import Home from './src/screens/containers/home';
 
-import Header from './src/sections/components/header';
-import CategoryList from './src/videos/containers/category-list';
-import SuggestionList from './src/videos/containers/suggestion-list';
-import Player from './src/player/containers/player.js';
-
+import Loading from './src/sections/components/loading';
+import AppLayout from './src/app';
 import { Provider } from 'react-redux';
-
-import store from './store';
-
-import API from './utils/api';
-
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './store';
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -30,38 +22,18 @@ export default class App extends Component<Props> {
     // suggestionList: [],
     // categoryList: []
   }
-  async componentDidMount() {
-    const categoryList = await API.getMovies();
-    store.dispatch({
-      type: 'SET_CATEGORY_LIST',
-      payload: {
-        categoryList
-      }
-    })
-    
-    const suggestionList = await API.getSuggestion(10);
-    store.dispatch({
-      type: 'SET_SUGGESTION_LIST',
-      payload: {
-        suggestionList
-      }
-    })
-  }
 
   render() {
     return (
       <Provider 
         store={store}
       >
-        <Home>
-          <Header>
-          </Header>
-          <Player />
-
-          <Text>Buscador</Text>
-          <CategoryList />
-          <SuggestionList />
-        </Home>
+        <PersistGate
+          loading={<Loading />}
+          persistor={persistor}
+        >
+          <AppLayout />
+        </PersistGate>
       </Provider>
     );
   }
