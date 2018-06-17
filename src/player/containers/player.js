@@ -10,14 +10,18 @@ import Layout from '../components/player-layout';
 import ControlLayout from '../components/control-layout';
 import PlayPause from '../components/play-pause';
 import Expand from '../components/expand';
+import ProgressBar from '../components/progressBar';
 
 class Player extends Component {
   state = {
     loading: true,
     paused: false,
     fullScreen: false,
-    duration: 0.00
+    duration: 0.00,
+    currentTime: '0.00',
+    progress: 0
   }
+
   onBuffer = ({isBuffering}) => {
     this.setState({
       loading: isBuffering
@@ -58,7 +62,6 @@ class Player extends Component {
   }
 
   onLoad = (payload) => {
-    console.log(payload);
     let duration = payload.duration / 60;
     let mins = Math.floor(duration);
     let seconds = duration % 1;
@@ -67,6 +70,19 @@ class Player extends Component {
     this.setState({
       duration: totalTime
     })
+  }
+
+  setTime = (payload) => {
+    let duration = payload.currentTime / 60;
+    let mins = Math.floor(duration);
+    let seconds = duration % 1;
+    seconds = (seconds * 60) / 1000;
+    let currentTime = (mins + seconds * 10).toFixed(2);
+    this.setState({
+      currentTime: currentTime,
+      progress: (payload.currentTime / payload.seekableDuration ) 
+    })
+
   }
   render() {
     return(
@@ -85,6 +101,7 @@ class Player extends Component {
             }}
             onFullscreenPlayerWillDismiss={this.fullScreenPlayerWillDismiss}
             onLoad={this.onLoad}
+            onProgress={this.setTime}  
           />
         }
         loader={
@@ -96,8 +113,8 @@ class Player extends Component {
               onPress={this.onPress}
               paused={this.state.paused}
             />
-            <Text>progress bar | </Text>
-            <Text style={styles.duration}>{this.state.duration}</Text>
+            <ProgressBar progress={this.state.progress}/>
+            <Text style={styles.duration}>{this.state.currentTime} / {this.state.duration}</Text>
             <Expand onPress={this.fullScreen} fullScreen={this.state.fullScreen}/>
           </ControlLayout>
         }

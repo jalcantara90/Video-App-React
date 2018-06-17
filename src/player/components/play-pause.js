@@ -48,7 +48,8 @@ const PlayPause = props => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    paddingHorizontal: 10,
+    paddingLeft: 10,
+
     paddingVertical: 10,
     height: 40,
     marginRight: 10,
