@@ -11,17 +11,17 @@ import {
 
 import Icon from '../../icons/components/icon';
 
-const PlayPause = props => {
+const Expand = props => {
 
-  const playIcon = Platform.select({
-    ios: 'ios-play',
-    android: 'md-play',
+  const expandIcon = Platform.select({
+    ios: 'ios-expand',
+    android: 'md-expand',
   });
 
-  const pauseIcon = Platform.select({
-    ios: 'ios-pause',
-    android: 'md-pause',
-  });
+  const contractIcon = Platform.select({
+    ios: 'ios-contract',
+    android: 'md-contract'
+  })
   
   return (
     <TouchableHighlight
@@ -36,10 +36,10 @@ const PlayPause = props => {
       }}
     >
     {
-      props.paused ?
-      <Icon iconName={playIcon}/>
+      props.fullScreen ?
+      <Icon style={styles.expandIcon} iconName={contractIcon}/>
       :
-      <Icon iconName={pauseIcon}/>
+      <Icon style={styles.expandIcon} iconName={expandIcon}/>
     }
     </TouchableHighlight>
   )
@@ -54,13 +54,11 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginVertical: 5,
     borderRadius: 50,
-
   },
-  button: {
-    color: 'white',
-    fontSize: 10,
-    fontWeight: 'bold'
+  expandIcon: {
+    justifyContent: 'flex-end'
   }
+
 })
 
-export default PlayPause;
+export default Expand;

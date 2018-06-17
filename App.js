@@ -22,7 +22,6 @@ import API from './utils/api';
 
 type Props = {};
 export default class App extends Component<Props> {
-
   state = {
     suggestionList: [],
     categoryList: []

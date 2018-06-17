@@ -9,11 +9,14 @@ import Video from 'react-native-video';
 import Layout from '../components/player-layout';
 import ControlLayout from '../components/control-layout';
 import PlayPause from '../components/play-pause';
+import Expand from '../components/expand';
 
 class Player extends Component {
   state = {
     loading: true,
-    paused: false
+    paused: false,
+    fullScreen: false,
+    duration: 0.00
   }
   onBuffer = ({isBuffering}) => {
     this.setState({
@@ -31,6 +34,40 @@ class Player extends Component {
       paused: !this.state.paused
     })
   }
+
+  setFullScreenPromise = () => {
+    return new Promise((resolve, reject) => {
+      resolve(this.setState({
+        fullScreen: !this.state.fullScreen
+      }))
+    }).catch(error => console.error(error))
+  }
+  fullScreen = () => {
+    this.setFullScreenPromise()
+      .then(() => {
+        if(this.state.fullScreen)
+          this.player.presentFullscreenPlayer();
+        else this.player.dismissFullscreenPlayer();
+      });
+  }
+
+  fullScreenPlayerWillDismiss = () => {
+    this.setState({
+      fullScreen: false
+    })
+  }
+
+  onLoad = (payload) => {
+    console.log(payload);
+    let duration = payload.duration / 60;
+    let mins = Math.floor(duration);
+    let seconds = duration % 1;
+    seconds = (seconds * 60) / 1000;
+    let totalTime = (mins + seconds * 10).toFixed(2);
+    this.setState({
+      duration: totalTime
+    })
+  }
   render() {
     return(
       <Layout
@@ -42,6 +79,11 @@ class Player extends Component {
             resizeMode="contain"
             paused={this.state.paused}
             onBuffer={this.onBuffer}
+            onLoad={this.onLoad}
+            ref={(ref) => {
+              this.player = ref
+            }}
+            onFullscreenPlayerWillDismiss={this.fullScreenPlayerWillDismiss}
             onLoad={this.onLoad}
           />
         }
@@ -55,8 +97,8 @@ class Player extends Component {
               paused={this.state.paused}
             />
             <Text>progress bar | </Text>
-            <Text>time left |</Text>
-            <Text>full screen</Text>
+            <Text style={styles.duration}>{this.state.duration}</Text>
+            <Expand onPress={this.fullScreen} fullScreen={this.state.fullScreen}/>
           </ControlLayout>
         }
       />
@@ -71,6 +113,10 @@ const styles = StyleSheet.create({
       right: 0,
       bottom: 0,
       top: 0,    
+  },
+  duration: {
+    color: 'white',
+    fontWeight: 'bold'
   }
 })
 
