@@ -17,36 +17,52 @@ import CategoryList from './src/videos/containers/category-list';
 import SuggestionList from './src/videos/containers/suggestion-list';
 import Player from './src/player/containers/player.js';
 
+import { Provider } from 'react-redux';
+
+import store from './store';
+
 import API from './utils/api';
 
 
 type Props = {};
 export default class App extends Component<Props> {
   state = {
-    suggestionList: [],
-    categoryList: []
+    // suggestionList: [],
+    // categoryList: []
   }
   async componentDidMount() {
-    const movies = await API.getSuggestion(10);
-    const categories = await API.getMovies();
-    console.log(categories);
-    this.setState({
-      suggestionList: movies,
-      categoryList: categories
+    const categoryList = await API.getMovies();
+    store.dispatch({
+      type: 'SET_CATEGORY_LIST',
+      payload: {
+        categoryList
+      }
     })
     
+    const suggestionList = await API.getSuggestion(10);
+    store.dispatch({
+      type: 'SET_SUGGESTION_LIST',
+      payload: {
+        suggestionList
+      }
+    })
   }
+
   render() {
     return (
-      <Home>
-        <Header>
-        </Header>
-        <Player />
+      <Provider 
+        store={store}
+      >
+        <Home>
+          <Header>
+          </Header>
+          <Player />
 
-        <Text>Buscador</Text>
-        <CategoryList list={this.state.categoryList}/>
-        <SuggestionList list={this.state.suggestionList}/>
-      </Home>
+          <Text>Buscador</Text>
+          <CategoryList />
+          <SuggestionList />
+        </Home>
+      </Provider>
     );
   }
 }
