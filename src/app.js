@@ -6,7 +6,8 @@ import Header from './sections/components/header';
 import CategoryList from './videos/containers/category-list';
 import SuggestionList from './videos/containers/suggestion-list';
 import Movie from './screens/containers/movie';
-import Player from './player/containers/player.js';
+import Search from './sections/containers/search';
+import Player from './player/containers/player';
 
 import { connect } from 'react-redux';
 
@@ -44,6 +45,7 @@ class AppLayout extends Component {
       <Home>
         <Header>
         </Header>
+        <Search />
         <CategoryList />
         <SuggestionList />
       </Home>
