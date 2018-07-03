@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 
 import { 
-  FlatList,
-  Text
+  FlatList
  } from 'react-native';
 import Layout from '../components/suggestiom-list-layout';
 import Empty from '../components/empty';
 import Separator from '../../sections/components/vertical-separator';
 import Suggestion from '../components/suggestion';
 
+import { NavigationActions } from 'react-navigation';
+
 import { connect } from 'react-redux';
 
 function mapStateToProps (state) {
   return {
-    list: state.suggestionList
+    list: state.videos.suggestionList
   }
 }
 
@@ -39,6 +40,12 @@ class SuggestionList extends Component {
         movie: item
       }
     })
+
+    this.props.dispatch(
+      NavigationActions.navigate({
+        routeName: 'Movie'
+      })
+    )
   }
   
   render() {

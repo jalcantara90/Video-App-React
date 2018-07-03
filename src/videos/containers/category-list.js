@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 
 function mapStateToProps (state) {
   return {
-    list: state.categoryList
+    list: state.videos.categoryList
   }
 }
 class CategoryList extends Component {

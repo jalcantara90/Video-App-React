@@ -11,7 +11,7 @@ import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-hel
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['selectedMovie']
+  blacklist: ['navigation']
 }
 const navigationMiddleware = createReactNavigationReduxMiddleware(
   'root',
