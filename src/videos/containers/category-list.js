@@ -10,6 +10,7 @@ import Separator from '../../sections/components/horizontal-separator';
 import Layout from '../components/categories-list-layout';
 
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 
 // const mapStateToProps = state => {
 //   debugger;
@@ -24,9 +25,22 @@ class CategoryList extends Component {
   keyExtractor = item => item.id.toString();
   itemSeparator = () => <Separator />
   renderEmpty = () => <Empty text="No hay categorias :("/>
+  viewCategory = item => {
+    this.props.dispatch(
+      NavigationActions.navigate({
+        routeName: 'Category',
+        params: {
+          genre: item.genres
+        }
+      })
+    )
+  }
   renderItem = ({item}) => {
     return (
-      <Category {...item}/>
+      <Category 
+        onPress={() => {this.viewCategory(item)}}
+        {...item}
+      />
     )
   }
   render() {

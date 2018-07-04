@@ -5,13 +5,8 @@
  */
 
 import React, { Component } from 'react';
-import {
-  Text
-} from 'react-native';
-
 
 import Loading from './src/sections/components/loading';
-import AppLayout from './src/app';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './store';
@@ -24,6 +19,8 @@ export default class App extends Component<Props> {
   }
 
   render() {
+    console.disableYellowBox = true;
+
     return (
       <Provider 
         store={store}

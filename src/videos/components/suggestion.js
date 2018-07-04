@@ -19,7 +19,7 @@ const Suggestion = (props) => {
             style={styles.cover}
           />
           <View style={styles.genreContainer}>
-            <Text style={styles.genreText}>{props.genres[0]}</Text>
+            <Text style={styles.genreText}>{props.genres}</Text>
           </View>
         </View>
 
