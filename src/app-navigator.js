@@ -1,7 +1,8 @@
 import React from 'react';
 import { 
   createStackNavigator,
-  createBottomTabNavigator
+  createBottomTabNavigator,
+  createSwitchNavigator
 } from 'react-navigation';
 
 import {
@@ -15,6 +16,8 @@ import Header from './sections/components/header';
 import About from './screens/containers/about';
 import Profile from './screens/containers/profile';
 import Lucky from './screens/containers/lucky';
+import Login from './screens/containers/login';
+import Loading from './screens/containers/loading';
 import Icon from './icons/components/icon';
 
 const Main = createStackNavigator(
@@ -29,6 +32,8 @@ const Main = createStackNavigator(
     }
   }
 )
+
+
 
 const homeIcon = Platform.select({
   ios: 'ios-home',
@@ -86,4 +91,15 @@ const TabNavigator = createBottomTabNavigator(
   }
 )
 
-export default TabNavigator;
+const SwitchNavigator = createSwitchNavigator(
+  {
+    App: TabNavigator,
+    Login,
+    Loading,
+  },
+  {
+    initialRouteName: 'Loading'
+  }
+)
+
+export default SwitchNavigator;

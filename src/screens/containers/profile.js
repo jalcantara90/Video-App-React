@@ -9,13 +9,20 @@ import {
 import { connect } from 'react-redux';
 
 class Profile extends Component {
+  handeLogout = state => {
+    this.props.dispatch({
+      type: 'REMOVE_USER'
+    });
+    this.props.navigation.navigate('Loading');
+  }
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <Text>Nombre de usuario</Text>
+        <Text>{this.props.user.username}</Text>
         <Button
           title="Cerrar sesión"
           color="#67a52e"
+          onPress={this.handeLogout}
         />
       </SafeAreaView>
     )
@@ -30,5 +37,10 @@ const styles = StyleSheet.create({
   }
 })
 
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
 
-export default Profile
+export default connect(mapStateToProps)(Profile);
